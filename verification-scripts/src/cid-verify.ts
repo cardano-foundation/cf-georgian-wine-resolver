@@ -22,7 +22,7 @@ async function run() {
   // JSON.parse since we are wrapping in single quotes
   const data = Buffer.from(JSON.stringify(JSON.parse(process.argv[2]))); 
   const multihash = await blake2b256.digest(data);
-  console.log(CID.createV1(code, multihash).toString(base58btc.encoder));
+  console.log(`CID is: ${CID.createV1(code, multihash).toString(base58btc.encoder)}`);
 }
 
 run();

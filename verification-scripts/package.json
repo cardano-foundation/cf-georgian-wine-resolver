@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cid-verify": "ts-node-esm cid-verify.ts",
-    "sig-verify": "ts-node-esm sig-verify.ts",
+    "cid-verify": "ts-node-esm src/cid-verify.ts",
+    "sig-verify": "ts-node-esm src/sig-verify.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -4,7 +4,7 @@ The verification process is described [here](../README.md).
 We encourage developers to write their own verification code, or audit this sample project.
 Java was used in our backend but we are providing this example in TypeScript for simplicity.
 
-**Note:** You must have NodeJS installed on your machine before running these commands.
+**Note:** You must have NodeJS installed on your machine before running these commands - you can download it from [here](https://nodejs.org/en/download).
 
 ```
 npm i
