@@ -7,7 +7,7 @@ if (process.argv.length !== 6) {
 
 async function run() {
   const wineryId = process.argv[2];
-  const response = await fetch(`https://api.stg.cf-bolnisi-preprod.eu-west-1.metadata.dev.cf-deployments.org/api/v1/pubkeys/${wineryId}/v/0`);
+  const response = await fetch(`https://api.pro.cf-bolnisi-mainnet.eu-west-1.bnwa.metadata.dev.cf-deployments.org/api/v1/pubkeys/${wineryId}/v/0`);
   if (response.status !== 200) {
     throw new Error("Could not retrieve winery public key - are you sure the winery ID (first argument) past is correct?");
   }
