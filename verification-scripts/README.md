@@ -39,7 +39,7 @@ This example from one of our test environments contains a batch of 2 signatures 
 
 Bottles found on Scantrust will have a `supply_chain_data_txid` of `d01d61ee9d03bfad686c2cd8779aec21087bb30c08967f1c59662bf8e3776c5a` and a `supply_chain_data_batch_info` of either `1#0` or `1#1` as the winery ID is 1, and it is an array of length 2 (zero-indexed).
 
-#### CID
+### CID
 Firstly lets verify the CID - which can be found in the transaction metadata and is:  `zCT5htkeEgtiRKiGnCddhHqu4mKn22NkmyjrHtR7j7V8Yx6URmXM`
 
 Using the resolver, this resolves to:
@@ -59,7 +59,7 @@ CID is: zCT5htkeEgtiRKiGnCddhHqu4mKn22NkmyjrHtR7j7V8Yx6URmXM
 
 As we can see, the CIDs match!
 
-#### Signatures
+### Signatures
 Both of the signatures in this batch come from the same winery, so the public key is the same: `3b68fe80c0d71f985050906509fdc976e9209977a7fba7761ddf84bc654534f6`.
 
 The signature at index 0 is `abf3a499bd227d08554cbcf11ec6d88c82c5e5c7ad89e058d17176f3f6fadc946368111212ba7ca5de7e9bad72c907f09c99fcd6bc46b9ccb2cd43763286e703`. We can extract out of the off-chain JSON the first item in the array for winery 1 (as the offchain JSON is a map of winery ID to array) and verify if its correct.
