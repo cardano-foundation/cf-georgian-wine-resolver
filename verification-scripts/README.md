@@ -37,7 +37,7 @@ This is described in detail in [here](../README.md).
 ## Example
 This example from one of our test environments contains a batch of 2 signatures from the same winery with ID 1. The transaction on preprod can be viewed [here](https://preprod.beta.explorer.cardano.org/en/transaction/d01d61ee9d03bfad686c2cd8779aec21087bb30c08967f1c59662bf8e3776c5a/metadata).
 
-Bottles found on Scantrust will have a `supply_chain_data_txid` of `d01d61ee9d03bfad686c2cd8779aec21087bb30c08967f1c59662bf8e3776c5a` and a `supply_chain_data_batch_info` of either `1#0` or `1#1` as the winery ID is 1, and it is an array of length 2 (zero-indexed).
+Bottles found on Scantrust will have a `Supply Chain Data Txid` of `d01d61ee9d03bfad686c2cd8779aec21087bb30c08967f1c59662bf8e3776c5a` and a `Supply Chain Data Batch Info` of either `1#0` or `1#1` as the winery ID is 1, and it is an array of length 2 (zero-indexed).
 
 ### CID
 Firstly lets verify the CID - which can be found in the transaction metadata and is:  `zCT5htkeEgtiRKiGnCddhHqu4mKn22NkmyjrHtR7j7V8Yx6URmXM`

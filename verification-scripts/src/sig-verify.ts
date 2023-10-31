@@ -1,5 +1,6 @@
 import * as jose from "jose";
 import { createPublicKey } from "crypto";
+import canonicalize from "canonicalize";
 
 if (process.argv.length !== 6) {
   throw new Error("Invalid number of arguments past! Format: npm run sig-verify <wineryId> <pubKeyHex> <signatureHex> <offchainJson>");
@@ -20,8 +21,12 @@ async function run() {
   }
 
   // JSON.parse since we are wrapping in single quotes
-  const offchainBase64url = Buffer.from(JSON.stringify(JSON.parse(process.argv[5]))).toString("base64url");
-
+  const canonicalized = canonicalize(JSON.parse(process.argv[5]));
+  if (!canonicalized) {
+    throw new Error("Error canonicalising data...");
+  }
+  
+  const offchainBase64url = Buffer.from(canonicalized).toString("base64url");
   await jose.flattenedVerify({
     payload: offchainBase64url,
     signature: Buffer.from(process.argv[4], "hex").toString("base64url"),
