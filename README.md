@@ -1,4 +1,4 @@
-## Overview
+## Georgian Wine Verification How-To
 This document describes the verification process for verifiable on-chain records created in the Bolnisi Georgian Wine pilot program.
 For the pilot, bottles produced by 20 wineries in the Bolnisi region of Georgia will have QR codes attached that link to web pages hosted by our partner, [Scantrust](https://www.scantrust.com/).
 Scantrust provide a track and trace solution with anti-counterfeit QR codes.
