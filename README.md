@@ -7,7 +7,7 @@ Upon scanning a QR code, you will be presented with:
 - a series of Supply Chain Management data points,
 - a transaction ID (`Supply Chain Data Txid`) and batch information (`Supply Chain Data Batch Info`)
 
-The transaction published on-chain serves verification information for bottles of wine produced in the Bolnisi region of Georgiad - the metadata label is 1904.
+The transaction published on-chain serves verification information for bottles of wine produced in the Bolnisi region of Georgia - the metadata label is 1904.
 The 1904 metadata label documentation describes some concepts such as key rotation - this is for future proofing reasons and not relevant to this pilot phase, so please consider this documentation as more accurate to the actual process and not the wider specification.
 
 **Note!** The rest of this document will describe how you can verify this yourself, but we have provided a sample TypeScript project to help - check it out [here](./verification-scripts/).
@@ -81,7 +81,7 @@ The header in this case only contains the key type which is why it is commonly e
         "h": <headerBytes>,
         "s": [<sig1Bytes>, <sig2Bytes>, <sig3Bytes>]
 	    },
-      "9133": {
+      "913a": {
         "pk": <pubKeyBytes>,
         "h": <headerBytes>,
         "s": [<sig1Bytes>, <sig2Bytes>]
