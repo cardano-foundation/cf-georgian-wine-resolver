@@ -3,7 +3,7 @@ import { createPublicKey } from "crypto";
 import canonicalize from "canonicalize";
 
 if (process.argv.length !== 6) {
-  throw new Error("Invalid number of arguments past! Format: npm run sig-verify <wineryId> <pubKeyHex> <signatureHex> <offchainJson>");
+  throw new Error("Invalid number of arguments past! Format: npm run scm-verify <wineryId> <pubKeyHex> <signatureHex> <offchainJson>");
 }
 
 async function run() {
