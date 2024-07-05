@@ -1,13 +1,16 @@
 ## Georgian Wine Verification How-To
 This document describes the verification process for verifiable on-chain records created in the Bolnisi Georgian Wine pilot program.
-For the pilot, bottles produced by 20 wineries in the Bolnisi region of Georgia will have QR codes attached that link to web pages hosted by our partner, [Scantrust](https://www.scantrust.com/).
+For the pilot, bottles produced by over 20 wineries in the Bolnisi region of Georgia will have QR codes attached that link to web pages hosted by our partner, [Scantrust](https://www.scantrust.com/).
 Scantrust provide a track and trace solution with anti-counterfeit QR codes.
 
 Upon scanning a QR code, you will be presented with:
 - a series of Supply Chain Management data points,
-- a transaction ID (`Supply Chain Data Txid`) and batch information (`Supply Chain Data Batch Info`)
+- a Supply Chain Management data transaction ID which links to a Cardano explorer and related batch information (e.g. `2#0`)
 
-The transaction published on-chain serves verification information for bottles of wine produced in the Bolnisi region of Georgia - the metadata label is 1904.
+You may or may now also be presetned with:
+- a Certificate of Conformity transaction ID, which also links to a Cardano explorer and related batch information (a simple index, e.g. `1`)
+
+The transactions published on-chain serves verification information for bottles of wine produced in the Bolnisi region of Georgia - the metadata label is 1904.
 The 1904 metadata label documentation describes some concepts such as key rotation - this is for future proofing reasons and not relevant to this pilot phase, so please consider this documentation as more accurate to the actual process and not the wider specification.
 
 **Note!** The rest of this document will describe how you can verify this yourself, but we have provided a sample TypeScript project to help - check it out [here](./verification-scripts/).
@@ -37,7 +40,7 @@ The resolver will return a pre-signed URL to the off-chain object store, and at 
 #### Batching
 To save on on-chain costs, data is batched periodically.
 The entire batch is hashed to a single CID (always!), so every transaction will only contain a single CID.
-Since there may be multiple keys involved in signing a batch, each transaction will contain as many signatures as there are items in the batch and must be individually verified.
+Since there may be multiple keys involved in signing a batch, or data outside of our system (e.g. in the National Wine Agency portal), each transaction will contain as many signatures as there are items in the batch and must be individually verified.
 The “batch info” on Scantrust is used to decide which item must be extracted from the batch to verify for that particular bottle of wine.
 
 ## Supply Chain Management (SCM) data
@@ -66,7 +69,7 @@ The batch information follows the format of “<wineryId>#<indexInArray>” - e.
 Data is signed by Ed25519 key pairs belonging to each winery.
 Signatures are stored on-chain within the `d` field and the format matches the off-chain data.
 
-Here, each winery ID maps to an object containing the public key byte-stream `pk`, the JSON Web Signature (JCS) header - `h`, and an array of JCS detached-signatures - `s``.
+Here, each winery ID maps to an object containing the public key byte-stream `pk`, the JSON Web Signature (JCS) header - `h`, and an array of JCS detached-signatures - `s`.
 The header in this case only contains the key type which is why it is commonly extracted from each signature to save on space.
 
 ```
@@ -93,6 +96,32 @@ The header in this case only contains the key type which is why it is commonly e
 ```
 The batch information of `4527#1` maps to `<sig2Bytes>` here.
 
+## Certificate of Conformity data
+Certificate of Conformity data serves as the stamp of quality from the National Wine Agency of Georgia.
+All exported wine, and some domestic wines will have an associated certificate; however, some scanned bottles may not.
+
+### Batching
+All data is signed by the National Wine Agency instead of individual wineries.
+As a result, the batching is a simple array and for each bottle (with a certificate) the index will be available to view on Scantrust.
+
+### Signing
+Signatures are stored in the top-level `s` field which matches the off-chain data (also just an array).
+Since there is only 1 key to represent the National Wine Agency, `h` and `pk` are also top-level fields.
+
+```
+{
+  "1904": {
+    "st": "georgianWine"
+    "s": [<sig1Bytes>, <sig2Bytes>, <sig3Bytes>]
+    "t": "conformityCert"
+    "v": "1"
+    "h": <headerBytes>
+    "pk": <pubKeyBytes>
+    "cid": "X"
+  }
+}
+```
+
 ## Verification process
 Firstly, you must retrieve the transaction ID from the bottle you have just scanned on Scantrust.
 Using an explorer or chain indexer, read the metadata of the given transaction.
@@ -113,8 +142,9 @@ Using an explorer or chain indexer, read the metadata of the given transaction.
 1. Retrieve the batch info from Scantrust.
 2. Use the batch info to extract the correct JSON object from the off-chain data obtained in the previous section (post-canonicalisation).
 3. Use the batch info to extract the correct public key (`pk`), JWS header (`h`) and JWS detached signature (item in `s`, depends on the batch info) from the on-chain metadata.
-4. Use an API endpoint listed [here](./apis/PUBLIC_KEYS) to retrieve the relevant public key bytes.
-    1. You must extract the winery ID from the batch info (everything before the # symbol).
+4. Use a listed API endpoint to retrieve the relevant public key bytes.
+    1. For SCM data, use this list [here](./apis/WINERY_PUBLIC_KEYS) - you must extract the winery ID from the batch info (everything before the # symbol).
+    2. For certificate data, use the list [here](./apis/NWA_PUBLIC_KEY).
 5. Verify that the public key embedded in the transaction metadata is the same as the public key returned by the API.
     1. If it’s not, then the transaction is not valid!
     2. **Hint:** Each of these values is a byte-stream in the metadata, but if you are viewing this on an explorer in your browser, it is probably represented in hex encoding.

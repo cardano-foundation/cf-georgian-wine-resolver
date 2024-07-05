@@ -23,15 +23,18 @@ npm run cert-verify <pubKeyHex> <sigHex> <offchainJSON>
 
 The CID verification accepts a single argument which is the off-chain data. This must be provided as a command line argument with no spaces (i.e. as it was returned from the API), and also be enclosed in single quotes. e.g. `npm run cid-verify '{"offchain":"data"}'`
 
-The signature verification accepts 4 ordered arguments:
+The SCM signature verification accepts 4 ordered arguments:
 - The winery ID,
 - The **hex** encoded public key,
 - The **hex** encoded signature,
 - The off-chain data, again with no spaces and enclosed in single quotes.
 
+The certificate signature verification script accepts similar arguments.
+
 **Why hex encoding?** Just because most explorers will represent the byte stream as hex when displaying it, so this makes it easy to copy paste. If you are actually processing the transactions using a chain indexer, you should convert the byte stream to the correct format if needed (most like base64url).
 
-The signature verification script will retrieve the public key from the API (based on the winery ID) and verify that it matches the one passed in the arguments.
+The SCM signature verification script will retrieve the public key from the API (based on the winery ID) and verify that it matches the one passed in the arguments.
+The certificate signature verification script will retrieve the public key from the National Wine Agency API. 
 
 **Remember!** For the CID verification, the off-chain JSON passed is the __entire__ JSON returned from the URL.
 But each batch contains a set of signatures, so for each signature you must extract the correct JSON object from the correct array only - otherwise the verification will fail!
@@ -44,7 +47,7 @@ Lets begin with an SCM data transaction as our first example. This example from 
 
 **Note:** The current script is against our production mainnet, so this example needs to be updated.
 
-Bottles found on Scantrust will have a `Supply Chain Data Txid` of `d01d61ee9d03bfad686c2cd8779aec21087bb30c08967f1c59662bf8e3776c5a` and a `Supply Chain Data Batch Info` of either `1#0` or `1#1` as the winery ID is 1, and it is an array of length 2 (zero-indexed).
+Bottles found on Scantrust will have a batch index associated with the Supply Chain Transaction of either `1#0` or `1#1` as the winery ID is 1, and it is an array of length 2 (zero-indexed).
 
 #### CID
 Firstly lets verify the CID - which can be found in the transaction metadata and is:  `zCT5htkeEgtiRKiGnCddhHqu4mKn22NkmyjrHtR7j7V8Yx6URmXM`
