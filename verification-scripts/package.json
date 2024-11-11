@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "cid-verify": "ts-node-esm src/cid-verify.ts",
-    "sig-verify": "ts-node-esm src/sig-verify.ts",
+    "scm-verify": "ts-node-esm src/scm-verify.ts",
+    "cert-verify": "ts-node-esm src/cert-verify.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
